@@ -78,7 +78,6 @@ class Game {
     piece.classList.add('piece');
     piece.style.backgroundColor = this.currPlayer.color;
     piece.style.top = -50 * (y + 2);
-    console.log(y, x);
     const spot = document.getElementById(`${y}-${x}`);
     spot.append(piece);
   }
@@ -87,9 +86,13 @@ class Game {
 
   endGame(msg) {
     setTimeout(alert(msg), 500);
-    //this.gameOver = true;
-    //document.getElementById('board').innerHTML = '';
-    //makeStartMenu();
+    this.gameOver = true;
+    const newGameBtn = document.createElement('button');
+    newGameBtn.innerText = "New Game";
+    newGameBtn.setAttribute('id', 'newGameBtn');
+    newGameBtn.addEventListener('click', makeStartMenu);
+
+    document.querySelector('body').append(newGameBtn);
   }
 
   /** handleClick: handle click of column top to play piece */
@@ -139,7 +142,6 @@ class Game {
 
         // find winner (only checking each win-possibility as needed)
         if (this._win(horiz) || this._win(vert) || this._win(diagDR) || this._win(diagDL)) {
-          console.log("CHECK FOR WIN...");
           return true;
         }
       }
@@ -178,6 +180,10 @@ const start = function (e) {
 }
 
 const makeStartMenu = function () {
+  if (document.querySelector('#newGameBtn')) {
+    document.querySelector('#newGameBtn').remove();
+  }
+  document.getElementById('board').innerHTML = '';
   const startForm = document.createElement('form');
   startForm.setAttribute('id', 'startForm');
   const playOneLabel = document.createElement('label');
