@@ -82,11 +82,13 @@ class Game {
     spot.append(piece);
   }
 
-  /** endGame: announce game end and start new game*/
+  /** endGame: announce game end and add button to start new game*/
 
   endGame(msg) {
-    setTimeout(alert(msg), 500);
+    setTimeout(() => alert(msg), 500);
+    //gameOver property used to stop clicks after game ended
     this.gameOver = true;
+
     const newGameBtn = document.createElement('button');
     newGameBtn.innerText = "New Game";
     newGameBtn.setAttribute('id', 'newGameBtn');
@@ -164,6 +166,7 @@ class Game {
   }
 }
 
+//player class
 class Player {
   constructor(num, color) {
     this.num = num;
@@ -171,7 +174,8 @@ class Player {
   }
 }
 
-const start = function (e) {
+//starts new game with 2 players with custom colors and removes player addition form
+const startGame = function (e) {
   e.preventDefault();
   const playOneColor = document.getElementById('playOneColor').value;
   const playTwoColor = document.getElementById('playTwoColor').value;
@@ -179,11 +183,15 @@ const start = function (e) {
   document.getElementById('startForm').remove();
 }
 
+
 const makeStartMenu = function () {
+  //clears screen to add game-start form
   if (document.querySelector('#newGameBtn')) {
     document.querySelector('#newGameBtn').remove();
   }
   document.getElementById('board').innerHTML = '';
+
+  //creates game-start form elements
   const startForm = document.createElement('form');
   startForm.setAttribute('id', 'startForm');
   const playOneLabel = document.createElement('label');
@@ -200,12 +208,13 @@ const makeStartMenu = function () {
   playTwoColor.setAttribute('type', 'text');
   const startBtn = document.createElement('button');
   startBtn.innerText = 'start';
-  startForm.addEventListener('submit', start);
+  startForm.addEventListener('submit', startGame);
 
+  //appends form elements to form
   startForm.append(playOneLabel, playOneColor, playTwoLabel, playTwoColor, startBtn);
 
 
-
+  //appends form to DOM
   document.querySelector('body').append(startForm);
 }
 
